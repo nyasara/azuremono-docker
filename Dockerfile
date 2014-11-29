@@ -3,7 +3,7 @@ FROM ubuntu:14.04
 # Install some basic system packages, and mono-devel so we get all the libraries, 
 # Create the /working folder for where code and programs will go
 # Make mono trust basic SSL
-RUN apt-get update && apt-get install -yq mono-devel curl \
+RUN apt-get update && apt-get install -yq mono-devel curl git \
     && mkdir /working \
     && mozroots --import --ask-remove
 
