@@ -1,14 +1,13 @@
 FROM ubuntu:14.04
 
-# Install required system packages
-RUN apt-get update 
-
-# Install Mono (done as a separate step to allow caching the other steps)
-RUN apt-get install -yq mono-devel
+# Install some basic system packages, and mono-devel so we get all the libraries, 
+# Create the /working folder for where code and programs will go
+# Make mono trust basic SSL
+RUN apt-get update && apt-get install -yq mono-devel curl \
+    && mkdir /working \
+    && mozroots --import --ask-remove
 
 # Creates a working directory for later things to build on
-
-RUN mkdir /working
 WORKDIR /working
 
 # Adds Azure SDK for Python
@@ -17,5 +16,3 @@ COPY externals/azure-sdk-for-python/azure /working/azure
 # Adds IronPython
 COPY IronPython-2.7.4 /working/ipy
 
-# Make mono trust basic SSL
-RUN mozroots --import --ask-remove
